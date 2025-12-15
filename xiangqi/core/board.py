@@ -108,7 +108,7 @@ class Board:
                 lines.append(f"    {mid}")
 
         turn = "执帅方" if self.side_to_move == Side.RED else "执将方"
-        return "\n".join(lines) + f"\nTurn: {turn}"
+        return "\n".join(lines) + f"\n回合: {turn}"
 
     def iter_pieces(self, side: Side):
         for i, p in enumerate(self.squares):

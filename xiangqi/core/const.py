@@ -38,7 +38,7 @@ def type_of(piece_code: int) -> Piece:
     return Piece(abs(piece_code))
 
 PIECE_CHAR = {
-    0: ".",
+    0: "·",
     +Piece.SHUAI: "帅",
     +Piece.SHI: "仕",
     +Piece.XIANG: "相",

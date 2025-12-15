@@ -40,13 +40,15 @@ def gen_legal_moves(board: Board, side: Side) -> List[Move]:
 def _in_bounds(r: int, c: int) -> bool:
     return 0 <= r < BOARD_ROWS and 0 <= c < BOARD_COLS
 
-def _try_add(board: Board, side: Side, frm: int, to: int, moves: List[Move]) -> None:
+def _try_add(board: Board, side: Side, frm: int, to: int, moves: List[Move]) -> bool:
     target = board.piece_at(to)
     if target == 0:
         moves.append(Move(frm, to))
+        return True
     else:
         if side_of(target) != side:
             moves.append(Move(frm, to, captured=target))
+        return False
 
 def _gen_che(board: Board, pos: int, side: Side) -> List[Move]:
     moves: List[Move] = []
@@ -56,12 +58,7 @@ def _gen_che(board: Board, pos: int, side: Side) -> List[Move]:
         rr, cc = r + dr, c + dc
         while _in_bounds(rr, cc):
             to = rc_to_i(rr, cc)
-            target = board.piece_at(to)
-            if target == 0:
-                moves.append(Move(pos, to))
-            else:
-                if side_of(target) != side:
-                    moves.append(Move(pos, to, captured=target))
+            if not _try_add(board, side, pos, to, moves):
                 break
             rr += dr
             cc += dc
@@ -73,8 +70,30 @@ def _gen_ma(board: Board, pos: int, side: Side) -> List[Move]:
     return []
 
 def _gen_pao(board: Board, pos: int, side: Side) -> List[Move]:
-    # TODO: 炮平移像车；吃子需要隔一个"炮架"
-    return []
+    moves: List[Move] = []
+    r, c = i_to_rc(pos)
+    # 四个方向直线
+    for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+        rr, cc = r + dr, c + dc
+        screen_found = False
+        # 先照车那样走空格
+        while _in_bounds(rr, cc):
+            to = rc_to_i(rr, cc)
+            target = board.piece_at(to)
+
+            if not screen_found:
+                if target == 0:
+                    moves.append(Move(pos, to))
+                else:
+                    screen_found = True # 找到炮架，准备吃子
+            else:
+                if target != 0:
+                    if side_of(target) != side:
+                        moves.append(Move(pos, to, captured=target))
+                    break
+            rr += dr
+            cc += dc
+    return moves
 
 def _gen_bing(board: Board, pos: int, side: Side) -> List[Move]:
     # TODO: 兵/卒：未过河只能前，过河可左右，不能后退

@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from .const import i_to_rc, rc_to_i
 
 @dataclass(frozen=True, slots=True)
 class Move:
@@ -9,4 +10,4 @@ class Move:
     captured: int = 0
 
     def __str__(self) -> str:
-        return f"Move({self.frm}->{self.to}, cap={self.captured})"
+        return f"Move({i_to_rc(self.frm)}->{i_to_rc(self.to)}, cap={self.captured})"
