@@ -31,7 +31,7 @@ def gen_legal_moves(board: Board, side: Side) -> List[Move]:
     legal: List[Move] = []
     for mv in gen_pseudo_legal_moves(board, side):
         board.make_move(mv)
-        # 走后轮到对方，但我们要检查"原side是否被将军"
+        # 检查"原side是否被将军"
         if (not rules.in_check(board, side)) and (not rules.is_face_to_face(board)):
             legal.append(mv)
         board.undo_move()
