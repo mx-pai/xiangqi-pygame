@@ -11,6 +11,7 @@ class MenuScene(Scene):
         self.init_bg = pygame.image.load(str(base_path / 'init_bg.png'))
         self.btn_bg = pygame.image.load(str(base_path / 'btn_bg.png'))
 
+        #我的字体文件目录
         font_path = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
         self.font = pygame.font.Font(font_path, 20)
 
@@ -29,24 +30,24 @@ class MenuScene(Scene):
 
     def draw(self, screen: pygame.Surface):
         bg = self.game.assets.menu_bg
+        screen_w, screen_h = screen.get_size()
         bg_w, bg_h = bg.get_size()
 
-        scale_x = GAME_WIDTH / bg_w
-        scale_y = GAME_HEIGHT / bg_h
+        scale_x, scale_y= screen_w / bg_w, screen_h / bg_h
         scale = max(scale_x, scale_y)
 
-        new_size = (int(bg_w * scale), int(bg_h * scale))
-        bg_scaled = pygame.transform.smoothscale(bg, new_size)
-        bg_x = (GAME_WIDTH - new_size[0]) // 2
-        bg_y = (GAME_HEIGHT - new_size[1]) // 2
+        new_w = int(bg_w * scale)
+        new_h = int(bg_h * scale)
+        bg_scaled = pygame.transform.smoothscale(bg, (new_w, new_h))
+        bg_x, bg_y= (screen_w - new_w) // 2, (screen_h - new_h) // 2
         screen.blit(bg_scaled, (bg_x, bg_y))
 
-        init_bg_x = (GAME_WIDTH - self.init_bg.get_width()) // 2
-        init_bg_y = (GAME_HEIGHT - self.init_bg.get_height()) // 2
+        init_bg_x = (screen_w - self.init_bg.get_width()) // 2
+        init_bg_y = (screen_h - self.init_bg.get_height()) // 2
         screen.blit(self.init_bg, (init_bg_x, init_bg_y))
 
         menu_items = ["人机对弈", "换边对战", "挑战棋局"]
-        start_y = init_bg_y + 100
+        start_y = init_bg_y + 180
         for mode, text in enumerate(menu_items):
             color = (255, 200, 0) if self.selected_mode == mode else (200, 200, 0)
             text_surf = self.font.render(text, True, color)
@@ -54,8 +55,8 @@ class MenuScene(Scene):
             screen.blit(self.btn_bg, (btn_x, start_y))
             text_rect = text_surf.get_rect(center=(btn_x + self.btn_bg.get_width() // 2, start_y + self.btn_bg.get_height() // 2))
             screen.blit(text_surf, text_rect)
-            start_y += 100
+            start_y += 80
 
         hint = self.font.render("按回车键开始游戏", True, (255, 255, 255))
-        hint_rect = hint.get_rect(center=(GAME_WIDTH // 2, start_y + 50))
+        hint_rect = hint.get_rect(center=( screen_w // 2, start_y + 50))
         screen.blit(hint, hint_rect)
