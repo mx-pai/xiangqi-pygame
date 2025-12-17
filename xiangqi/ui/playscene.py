@@ -1,10 +1,11 @@
+from xiangqi.core.board import Board
 from .scenes import Scene
 from .game_config import SQUARE_SIZE, GAME_WIDTH, GAME_HEIGHT
 import pygame
 from xiangqi.core.const import rc_to_i
 class PlayScene(Scene):
     def on_enter(self, **kwards):
-        pass
+        self.board = Board.initial() # 初始化棋盘一次即可
 
     def handle_event(self, event):
         return super().handle_event(event)
@@ -40,13 +41,9 @@ class PlayScene(Scene):
         self.board_x = board_x
         self.board_y = board_y
         screen.blit(board_bg_scaled, (board_x, board_y))
-        self.draw_pieces(screen, board_x, board_y, self.square_size)
+        self.draw_pieces(screen, board_x + 10, board_y - 10, self.square_size)
 
     def draw_pieces(self, screen, board_x, board_y, square_size):
-        if not hasattr(self, 'board'):
-            from xiangqi.core.board import Board
-            self.board = Board()
-            self.board.initial()
         for row in range(10):
             for col in range(9):
                 piece_code = self.board.squares[row * 9 + col]
