@@ -24,7 +24,7 @@
 
 接下来的章节将深入剖析 Alpha-Beta 与价值表在这套架构中是如何协同工作的。
 
-## ---
+---
 
 **2\. 博弈树搜索核心：Alpha-Beta 剪枝机制**
 
@@ -224,7 +224,7 @@ PST 数组示例（红兵，简化版）：
 
 最终评分通过一个 **相位因子（Phase Factor）**进行线性插值：
 
-$$ \text{FinalScore} = \frac{\text{MG_Score} \times \text{Phase} + \text{EG_Score} \times (256 - \text{Phase})}{256} $$
+$$ \text{FinalScore} = \frac{\text{MG\_Score} \times \text{Phase} + \text{EG\_Score} \times (256 - \text{Phase})}{256} $$
 
 其中 Phase 根据棋盘上剩余大子（车马炮）的数量动态计算。这使得引擎能平滑地从进攻模式过渡到残局模式 5。
 

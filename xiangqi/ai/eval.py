@@ -1,14 +1,14 @@
 from __future__ import annotations
 from xiangqi.core.board import Board
 from xiangqi.core.const import Piece, Side, rc_to_i, i_to_rc, BOARD_ROWS, BOARD_COLS
-from .ai_config import PIECE_PER_VALUE, PIECES_VALUE
+from .ai_config import PIECE_PER_VALUE, PIECE_VALUES_TABLE
 
 
 def _get_pst_value(piece_type: int, r: int, c: int) -> int:
     """获取位置附加分 (以红方视角为基准输入 r)"""
-    if piece_type in PIECES_VALUE:
+    if piece_type in PIECE_VALUES_TABLE:
         if 0 <= r < BOARD_ROWS and 0 <= c < BOARD_COLS:
-            return PIECES_VALUE[piece_type][r][c]
+            return PIECE_VALUES_TABLE[piece_type][r][c]
     return 0
 
 
@@ -41,11 +41,4 @@ def evaluate(board: Board) -> int:
             score += base_value + pst_value
         else:
             score -= (base_value + pst_value)
-
-    return score
-
-
-    # todo:简单的机动性加分 (可选)
-    # score += (len(红方合法走法) - len(黑方合法走法)) * 5
-
     return score

@@ -1,8 +1,9 @@
 from xiangqi.core.board import Board
 from .scenes import Scene
 import pygame
-from xiangqi.core.const import rc_to_i, side_of, i_to_rc
+from xiangqi.core.const import Side, rc_to_i, side_of, i_to_rc
 from xiangqi.core.movegen import gen_legal_moves
+from xiangqi.ai.search import find_best_move
 class PlayScene(Scene):
     def on_enter(self, **kwards):
         self.board = Board.initial() # 初始化棋盘一次即可
@@ -30,7 +31,7 @@ class PlayScene(Scene):
                     self.board.make_move(move)
                     self.selected = None
                     self.cand_moves = []
-                    return
+                    print(f"Made move: {move}")
 
                 if piece_to == 0:
                     self.selected = None
@@ -44,7 +45,6 @@ class PlayScene(Scene):
                 allmoves = gen_legal_moves(self.board, self.board.side_to_move)
                 self.cand_moves = [mv for mv in allmoves if mv.frm == frm] # 只保留该选中棋子的走法
                 return
-
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_z:
             if self.board.move_stack:
