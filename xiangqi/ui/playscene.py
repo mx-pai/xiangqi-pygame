@@ -3,7 +3,6 @@ from .scenes import Scene
 import pygame
 from xiangqi.core.const import rc_to_i, side_of, i_to_rc
 from xiangqi.core.movegen import gen_legal_moves
-from xiangqi.core.move import Move
 class PlayScene(Scene):
     def on_enter(self, **kwards):
         self.board = Board.initial() # 初始化棋盘一次即可
