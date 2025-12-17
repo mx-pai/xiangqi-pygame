@@ -25,7 +25,7 @@ def gen_pseudo_legal_moves(board: Board, side: Side) -> list[Move]:
     return moves
 
 def gen_legal_moves(board: Board, side: Side) -> list[Move]:
-    """伪合法 -> 合法（过滤走后自家仍被将军/照面）"""
+    """生成side方的所有合法走法"""
     legal: list[Move] = []
     for mv in gen_pseudo_legal_moves(board, side):
         board.make_move(mv)
