@@ -1,5 +1,6 @@
 from .eval import evaluate
 from xiangqi.core.const import Side
+from xiangqi.core.rules import in_check
 from xiangqi.core.movegen import gen_legal_moves
 import time
 from .ai_config import INF
@@ -31,6 +32,18 @@ def minimax(board, depth, alpha, beta, is_red_turn):
                 break
         return min_eval
 
+def order_moves(board, moves):
+    def move_score(move):
+        score = 0
+        if move.captured:
+            score += abs(move.captured) * 10
+        board.make_move(move)
+        if in_check(board, Side.RED if board.side_to_move == Side.BLACK else Side.BLACK):
+            score += 50
+        board.undo_move()
+        return score
+    return sorted(moves, key=move_score, reverse=True)
+
 def find_best_move(board, max_depth=3, time_limit=5.0):
     best_move = None
     is_red_turn = board.side_to_move == Side.RED
@@ -40,8 +53,7 @@ def find_best_move(board, max_depth=3, time_limit=5.0):
         current_iter_best_move = None
         alpha = -INF
         beta = INF
-        moves = gen_legal_moves(board, board.side_to_move)
-        moves.sort(key=lambda m: abs(m.captured), reverse=True)
+        moves = order_moves(board, gen_legal_moves(board, board.side_to_move))
 
         for move in moves:
             if time.time() - start_time > time_limit:

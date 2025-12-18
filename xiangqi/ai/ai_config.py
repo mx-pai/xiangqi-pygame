@@ -1,17 +1,17 @@
 from xiangqi.core.const import Piece
 
 # =========================================================
-# 第一部分：材质价值表 (Material Value)
+# 第一部分：棋子价值表 (Material Value)
 # =========================================================
 # 参考: ElephantEye 中的标准分值 + 象棋理论
 PIECE_PER_VALUE = {
-    Piece.SHUAI: 10000,   # 将帅：无法交换，用极大值表示游戏结束
-    Piece.CHE: 900,       # 车：最强棋子
-    Piece.PAO: 450,       # 炮：需要炮架才能发挥威力
-    Piece.MA: 400,        # 马：比车弱，受限于日字跳跃
+    Piece.SHUAI: 8888,   # 将帅：无法交换，用极大值表示游戏结束
+    Piece.CHE: 194,       # 车：最强棋子
+    Piece.PAO: 96,       # 炮：需要炮架才能发挥威力
+    Piece.MA: 85,        # 马：比车弱，受限于日字跳跃
     Piece.XIANG: 20,      # 象/相：纯防御，不过河
     Piece.SHI: 20,        # 士/仕：护卫将帅，限于九宫
-    Piece.BING: 10,       # 兵/卒：最弱单位（过河后价值可以翻倍）
+    Piece.BING: 7,       # 兵/卒：最弱单位
     Piece.EMPTY: 0        # 空位
 }
 
