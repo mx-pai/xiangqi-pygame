@@ -8,10 +8,6 @@ from .theme import Theme
 class MenuScene(Scene):
     from .playscene import PlayScene
     def on_enter(self, **kwards):
-        pygame.mixer.init()
-
-        pygame.mixer.music.load('xiangqi/assets/audio/bgm.mp3')
-        pygame.mixer.music.play(-1)
         self.selected_mode = 0 # 0: 人机； 1: 换边； 2: 切换主题
         self.modes = ["HUMAN_VS_AI", "CHANGE_SIDE", "CHESS_CHALLENGE"]
         base_path = Path(__file__).parent.parent / 'assets' / 'img'

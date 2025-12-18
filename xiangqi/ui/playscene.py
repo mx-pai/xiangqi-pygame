@@ -72,6 +72,13 @@ class PlayScene(Scene):
                 self.selected = None
                 self.cand_moves = []
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                from .menuscene import MenuScene
+                self.game.change_scene(MenuScene(self.game))
+            elif event.key == pygame.K_m:
+                pygame.mixer.music.pause() if pygame.mixer.music.get_busy() else pygame.mixer.music.unpause()
+
     def draw(self, screen: pygame.Surface):
         bg = self.game.assets.bg
         screen_w, screen_h = screen.get_size()

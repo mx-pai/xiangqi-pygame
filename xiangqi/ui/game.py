@@ -10,6 +10,9 @@ class Game:
         self.theme = Theme.style_1()
         self.assets = AssetManager(self.theme)
         self.scene = None
+        pygame.mixer.init()
+        pygame.mixer.music.load('xiangqi/assets/audio/bgm.mp3')
+        pygame.mixer.music.play(-1)
         from .menuscene import MenuScene
         self.change_scene(MenuScene(self))
 
