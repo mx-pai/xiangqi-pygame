@@ -43,7 +43,8 @@ class PlayScene(Scene):
                     if self.board.side_to_move == Side.BLACK:
                         black_moves = gen_legal_moves(self.board, Side.BLACK)
                         if black_moves:
-                            ai_move = find_best_move(self.board, max_depth=4)
+                            # ai_move = find_best_move(self.board, max_depth=4)
+                            ai_move = self.search_engine.search(self.board, max_depth=3)
                             if ai_move is not None:
                                 self.board.make_move(ai_move)
                                 # print(f"AI made move: {ai_move}")
@@ -133,6 +134,7 @@ class PlayScene(Scene):
         #         pygame.draw.circle(screen, (0,255,0), (int(x), int(y)), 3)
 
         self.draw_pieces(screen)
+        self.draw_check(screen)
 
     def draw_pieces(self, screen):
         piece_size = int(min(self.dx, self.dy) * 0.9)
@@ -189,6 +191,21 @@ class PlayScene(Scene):
         img_scaled = pygame.transform.smoothscale(piece_img, (piece_size, piece_size)).convert_alpha()
         img_scaled.set_alpha(200)  # 半透明效果
         screen.blit(img_scaled, img_scaled.get_rect(center=(x, y)))
+
+    def draw_check(self, screen):
+        from ..core.rules import in_check
+        from xiangqi.core.const import Piece
+
+        if in_check(self.board, self.board.side_to_move):
+            if self.board.side_to_move == Side.RED:
+                king_pos = self.board.squares.index(Piece.SHUAI)
+            else:
+                king_pos = self.board.squares.index(-Piece.SHUAI)
+
+            if king_pos is not None:
+                row, col = i_to_rc(king_pos)
+                x, y = self.rc_to_pixel(row, col)
+                pygame.draw.circle(screen, (255, 0, 0), (x, y), int(min(self.dx, self.dy) * 0.4), 8)
 
     def pixel_to_rc(self, pos):
         """将屏幕像素坐标转换为棋盘行列号（row, col），若点击区域不在棋盘内则返回 None"""
