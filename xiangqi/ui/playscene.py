@@ -9,7 +9,6 @@ from xiangqi.ai.search import find_best_move
 class PlayScene(Scene):
     def on_enter(self, **kwards):
         self.board = Board.initial() # 初始化棋盘一次即可
-        self.inset = {"l":0.07, "r":0.06, "t":0.09, "b":0.10} # 棋盘内边距比例/微调过后
         self.selected = None
         self.cand_moves = []
         self.search_engine = SearchEngine()
@@ -103,10 +102,11 @@ class PlayScene(Scene):
 
         # 棋盘格子区域
         # 交叉点区域
-        l = int(self.inset["l"] * board_w)
-        r = int(self.inset["r"] * board_w)
-        t = int(self.inset["t"] * board_h)
-        b = int(self.inset["b"] * board_h)
+        inset = self.game.assets.theme.inset
+        l = int(inset["l"] * board_w)
+        r = int(inset["r"] * board_w)
+        t = int(inset["t"] * board_h)
+        b = int(inset["b"] * board_h)
         self.grid_rect = pygame.Rect(
             board_x + l,
             board_y + t,
