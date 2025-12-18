@@ -13,11 +13,16 @@ class PlayScene(Scene):
         self.selected = None
         self.cand_moves = []
         self.search_engine = SearchEngine()
+        self.selected_sound = pygame.mixer.Sound('xiangqi/assets/audio/select.wav')
+        self.move_sound = pygame.mixer.Sound('xiangqi/assets/audio/click.wav')
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             rc = self.pixel_to_rc(event.pos)
+            self.selected_sound.play()
             if rc is None:
                 self.selected = None
+                self.selected_sound.play()
                 self.cand_moves = []
                 return
 
@@ -31,6 +36,7 @@ class PlayScene(Scene):
                 move = next((mv for mv in self.cand_moves if mv.to == to), None)
                 if move is not None:
                     self.board.make_move(move)
+                    self.move_sound.play()
                     self.selected = None
                     self.cand_moves = []
                     # print(f"Made move: {move}")
