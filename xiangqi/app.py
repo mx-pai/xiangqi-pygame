@@ -1,23 +1,14 @@
-from __future__ import annotations
-import random
+import pygame
+from .ui.game import Game
+from .ui.game_config import GAME_WIDTH, GAME_HEIGHT
 
-from core.board import Board
-from core.const import Side
-from core.movegen import gen_legal_moves
 
 def main():
-    b = Board.initial()
-    print(b.pretty())
-
-    side = b.side_to_move
-    moves = gen_legal_moves(b, side)
-    print(f"Legal moves for {side.name}: {len(moves)}")
-    for _ in range(100):
-        if moves:
-            mv = random.choice(moves)
-            print("Play:", mv)
-            b.make_move(mv)
-            print(b.pretty())
+    pygame.init()
+    screen = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
+    pygame.display.set_caption("Xiangqi Test")
+    game = Game(screen)
+    game.run()
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 from __future__ import annotations
-from xiangqi.core.board import Board
-from xiangqi.core.const import Piece, Side, rc_to_i, i_to_rc, BOARD_ROWS, BOARD_COLS
+from ..core.board import Board
+from ..core.const import Piece, Side, rc_to_i, i_to_rc, BOARD_ROWS, BOARD_COLS
 from .ai_config import PIECE_PER_VALUE, PIECE_VALUES_TABLE, MATE_VALUE
 
 

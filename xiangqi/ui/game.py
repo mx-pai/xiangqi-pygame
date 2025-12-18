@@ -1,6 +1,7 @@
 from .theme import Theme
 from .asset_manager import AssetManager
 import pygame
+from pathlib import Path
 
 class Game:
     def __init__(self, screen):
@@ -10,8 +11,9 @@ class Game:
         self.theme = Theme.style_1()
         self.assets = AssetManager(self.theme)
         self.scene = None
+        music_path = Path(__file__).parent.parent / 'assets' / 'audio' / 'bgm.mp3'
         pygame.mixer.init()
-        pygame.mixer.music.load('xiangqi/assets/audio/bgm.mp3')
+        pygame.mixer.music.load(str(music_path))
         pygame.mixer.music.play(-1)
         from .menuscene import MenuScene
         self.change_scene(MenuScene(self))

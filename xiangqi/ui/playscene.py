@@ -1,10 +1,10 @@
-from xiangqi.core.board import Board
+from ..core.board import Board
 from .scenes import Scene
 import pygame
-from xiangqi.core.const import Side, rc_to_i, side_of, i_to_rc
-from xiangqi.core.movegen import gen_legal_moves
-from xiangqi.ai.search_v2 import SearchEngine
-from xiangqi.ai.search import find_best_move
+from ..core.const import Side, rc_to_i, side_of, i_to_rc
+from ..core.movegen import gen_legal_moves
+from ..ai.search_v2 import SearchEngine
+from ..ai.search import find_best_move
 
 class PlayScene(Scene):
     def on_enter(self, **kwards):
@@ -194,7 +194,7 @@ class PlayScene(Scene):
 
     def draw_check(self, screen):
         from ..core.rules import in_check
-        from xiangqi.core.const import Piece
+        from ..core.const import Piece
 
         if in_check(self.board, self.board.side_to_move):
             if self.board.side_to_move == Side.RED:

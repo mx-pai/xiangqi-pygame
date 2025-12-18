@@ -1,4 +1,4 @@
-from xiangqi.core.const import Piece
+from ..core.const import Piece
 
 # =========================================================
 # 第一部分：棋子价值表 (Material Value)

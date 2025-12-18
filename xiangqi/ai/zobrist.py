@@ -2,7 +2,7 @@
 # - 用于置换表
 from __future__ import annotations
 import random
-from xiangqi.core.const import BOARD_SIZE, Piece, Side
+from ..core.const import BOARD_SIZE, Piece, Side
 
 _zobrist_table = [[0] * BOARD_SIZE for _ in range(15)]
 _turn_key = 0

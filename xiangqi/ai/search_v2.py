@@ -1,9 +1,9 @@
 from __future__ import annotations
 import time
-from xiangqi.core.board import Board
-from xiangqi.core.move import Move
-from xiangqi.core.movegen import gen_legal_moves
-from xiangqi.core.const import Side, Piece
+from ..core.board import Board
+from ..core.move import Move
+from ..core.movegen import gen_legal_moves
+from ..core.const import Side, Piece
 from .eval import evaluate
 from .zobrist import calc_zobrist_key
 from .ai_config import INF, MATE_VALUE

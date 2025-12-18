@@ -1,7 +1,7 @@
 from .eval import evaluate
-from xiangqi.core.const import Side
-from xiangqi.core.rules import in_check
-from xiangqi.core.movegen import gen_legal_moves
+from ..core.const import Side
+from ..core.rules import in_check
+from ..core.movegen import gen_legal_moves
 import time
 from .ai_config import INF
 
