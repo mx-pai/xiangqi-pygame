@@ -1,7 +1,7 @@
 from __future__ import annotations
 from xiangqi.core.board import Board
 from xiangqi.core.const import Piece, Side, rc_to_i, i_to_rc, BOARD_ROWS, BOARD_COLS
-from .ai_config import PIECE_PER_VALUE, PIECE_VALUES_TABLE
+from .ai_config import PIECE_PER_VALUE, PIECE_VALUES_TABLE, MATE_VALUE
 
 
 def _get_pst_value(piece_type: int, r: int, c: int) -> int:
@@ -20,9 +20,9 @@ def evaluate(board: Board) -> int:
     red_shuai = any(piece == Piece.SHUAI for piece in board.squares)
     black_shuai = any(piece == -Piece.SHUAI for piece in board.squares)
     if not red_shuai:
-        return -999999  # 黑方胜
+        return -MATE_VALUE  # 黑方胜
     if not black_shuai:
-        return 999999   # 红方胜
+        return MATE_VALUE   # 红方胜
 
     score = 0
     for i in range(BOARD_ROWS * BOARD_COLS):

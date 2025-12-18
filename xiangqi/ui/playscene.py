@@ -3,14 +3,16 @@ from .scenes import Scene
 import pygame
 from xiangqi.core.const import Side, rc_to_i, side_of, i_to_rc
 from xiangqi.core.movegen import gen_legal_moves
+from xiangqi.ai.search_v2 import SearchEngine
 from xiangqi.ai.search import find_best_move
+
 class PlayScene(Scene):
     def on_enter(self, **kwards):
         self.board = Board.initial() # 初始化棋盘一次即可
         self.inset = {"l":0.07, "r":0.06, "t":0.09, "b":0.10} # 棋盘内边距比例/微调过后
         self.selected = None
         self.cand_moves = []
-
+        self.search_engine = SearchEngine()
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             rc = self.pixel_to_rc(event.pos)
@@ -36,7 +38,7 @@ class PlayScene(Scene):
                     if self.board.side_to_move == Side.BLACK:
                         black_moves = gen_legal_moves(self.board, Side.BLACK)
                         if black_moves:
-                            ai_move = find_best_move(self.board, depth=3)
+                            ai_move = find_best_move(self.board, max_depth=4)
                             if ai_move is not None:
                                 self.board.make_move(ai_move)
                                 # print(f"AI made move: {ai_move}")
