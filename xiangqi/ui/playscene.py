@@ -5,6 +5,7 @@ from ..core.const import Side, rc_to_i, side_of, i_to_rc
 from ..core.movegen import gen_legal_moves
 from ..ai.search_v2 import SearchEngine
 from ..ai.search import find_best_move
+from ..core.rules import is_checkmate
 
 class PlayScene(Scene):
     def on_enter(self, **kwards):
@@ -14,6 +15,7 @@ class PlayScene(Scene):
         self.search_engine = SearchEngine()
         self.selected_sound = pygame.mixer.Sound('xiangqi/assets/audio/select.wav')
         self.move_sound = pygame.mixer.Sound('xiangqi/assets/audio/click.wav')
+        self.checkmate_sound = pygame.mixer.Sound('xiangqi/assets/audio/checkmate.wav')
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -193,10 +195,13 @@ class PlayScene(Scene):
         screen.blit(img_scaled, img_scaled.get_rect(center=(x, y)))
 
     def draw_check(self, screen):
-        from ..core.rules import in_check
+        from ..core.rules import is_checkmate, in_check
         from ..core.const import Piece
 
-        if in_check(self.board, self.board.side_to_move):
+        curent_side = self.board.side_to_move
+
+        if in_check(self.board, curent_side):
+            pygame.mixer.Sound.play(self.checkmate_sound)
             if self.board.side_to_move == Side.RED:
                 king_pos = self.board.squares.index(Piece.SHUAI)
             else:
@@ -205,7 +210,12 @@ class PlayScene(Scene):
             if king_pos is not None:
                 row, col = i_to_rc(king_pos)
                 x, y = self.rc_to_pixel(row, col)
-                pygame.draw.circle(screen, (255, 0, 0), (x, y), int(min(self.dx, self.dy) * 0.4), 8)
+
+                if is_checkmate(self.board, curent_side, gen_legal_moves):
+                    # 将死时绘制更明显的标记
+                    pygame.draw.circle(screen, (255, 0, 0), (x, y), int(min(self.dx, self.dy) * 0.5), 10)
+                else:
+                    pygame.draw.circle(screen, (255, 0, 0), (x, y), int(min(self.dx, self.dy) * 0.4), 5)
 
     def pixel_to_rc(self, pos):
         """将屏幕像素坐标转换为棋盘行列号（row, col），若点击区域不在棋盘内则返回 None"""
