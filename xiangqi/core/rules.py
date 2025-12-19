@@ -19,7 +19,7 @@ def is_face_to_face(board: Board) -> bool:
     return True
 
 def in_check(board: Board, side: Side) -> bool:
-    """side 方是否被将军。占位：后续实现（含照面）。"""
+    """side 方是否被将军。"""
     from .movegen import gen_pseudo_legal_moves
     opponent_side = Side.RED if side == Side.BLACK else Side.BLACK
     shuai_pos = board.find_piece(+Piece.SHUAI) if side == Side.RED else board.find_piece(-Piece.SHUAI)
